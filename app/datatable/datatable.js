@@ -45,19 +45,4 @@ angular.module('myApp.datatable', ['ngRoute','ui.utils'])
             }
         };
 
-        var data = {
-            "key": 1
-        };
-
-        $http({
-            method: 'POST',
-            url: "http://datatable.getsandbox.com/users",
-            headers:
-            {"Content-Type": "application/json"},
-
-            data: data
-        }).success(function(data, status) {
-            console.log("post data");
-        })
-
     }]);
