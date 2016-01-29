@@ -59,5 +59,5 @@ angular.module('myApp.datatable', ['ngRoute','ui.utils'])
         }).success(function(data, status) {
             console.log("post data");
         })
-        
+
     }]);
