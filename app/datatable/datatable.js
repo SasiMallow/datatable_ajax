@@ -9,7 +9,18 @@ angular.module('myApp.datatable', ['ngRoute','ui.utils'])
         });
     }])
 
+
     .controller('View1Ctrl', ['$scope', '$http', function($scope, $http) {
+
+        $scope.select = {};
+        // Set intervels for reload dataTable every 30 seconds.
+
+        setInterval( function () {
+            $('#ajaxExample').DataTable().ajax.reload();
+        }, 30000 );
+
+        // AJAX method for dataTables.
+
         $scope.ajaxOptions = {
             "ajax": {
                 "url": "http://datatable.getsandbox.com/datatable",
@@ -27,14 +38,13 @@ angular.module('myApp.datatable', ['ngRoute','ui.utils'])
                 { "data": "position" },
                 { "data": "office" }
             ],
+
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 
                 var oSettings = $('#ajaxExample').dataTable().fnSettings();
                 $("td:first", nRow).html(oSettings._iDisplayStart+iDisplayIndex +1);
 
-                //console.log(aData);
                 $(nRow).attr("id",'row_' + aData.id);
-                //$compile(nRow)($scope);
 
                 return nRow;
             },
@@ -42,7 +52,20 @@ angular.module('myApp.datatable', ['ngRoute','ui.utils'])
                 $scope.$apply(function() {
                     $scope.total = json.total_persons;
                 });
+            },
+            "fnDrawCallback": function (oSettings, json){
+                alert("DataTables has redrawn the table");
+                $scope.$apply(function() {
+                    $scope.total = json.total_persons;
+                });
+            },
+
+            "fnPreDrawCallback": function (oSettings, json){
+                if ($scope.select.data) {
+                    return false;
+                }
             }
         };
+
 
     }]);
